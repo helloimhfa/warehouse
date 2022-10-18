@@ -1,0 +1,78 @@
+{
+  "inventory": [
+    {
+      "art_id": "1",
+      "name": "leg",
+      "stock": "12"
+    },
+    {
+      "art_id": "2",
+      "name": "screw",
+      "stock": "17"
+    },
+    {
+      "art_id": "3",
+      "name": "seat",
+      "stock": "2"
+    },
+    {
+      "art_id": "4",
+      "name": "table top",
+      "stock": "1"
+    }
+  ],
+  "products": [
+    {
+      "name": "Dining Chair",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "3",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dinning Table",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "4",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Office Chair",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "16"
+        },
+        {
+          "art_id": "3",
+          "amount_of": "1"
+        }
+      ],
+      "id": "ba9a6eeb-f143-4e08-ad0d-0faac322e6e2"
+    }
+  ]
+}
