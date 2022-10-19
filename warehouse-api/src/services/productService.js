@@ -11,7 +11,6 @@ const createProduct = (newProduct) => {
     const productToInsert = {
         ...newProduct,
         id: uuid()
-        // TODO: createdAt (?)
     }
 
     const createdProduct = ProductModel.createNewProduct(productToInsert);

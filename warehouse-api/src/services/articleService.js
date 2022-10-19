@@ -1,18 +1,30 @@
-const ArticleModel = require("../database/Article");
+const { v4: uuid } = require("uuid");
+const ArticleDAO = require("../database/Article");
 
 const getAllArticles = () => {
-    return ArticleModel.getAllArticles();
+    return ArticleDAO.getAllArticles();
 }
-const getArticleById = (productId) => {
-    return;
+const getArticleById = (articleId) => {
+    return ArticleDAO.getArticleById(articleId);
 }
-const createArticle = () => {
-    return;
+const createArticle = async (newArticle) => {
+    // TODO: check existing name (?) 
+    const articleToInsert = {
+        ...newArticle,
+    }
+
+    try {
+        const createdArticle = await ArticleDAO.createArticle(articleToInsert);
+        return createdArticle;
+    } catch (error) {
+        throw error;
+    }    
 }
-const updateArticle = () => {
-    return;
+
+const updateArticle = (articleId) => {
+    return ArticleDAO.updateArticle(articleId);
 }
-const deleteArticle = () => {
+const deleteArticle = (articleId) => {
     return;
 }
 
