@@ -1,43 +1,95 @@
 const productService = require("../services/productService");
 
-const getAllProducts = (req, res) => {
-    const allProducts = productService.getAllProducts();
-    res.send({ status: "OK", data: allProducts });
+const getAllProducts = async (req, res) => {
+    try {
+        const allProducts = await productService.getAllProducts();
+        res.status(201).send({
+            status: "OK",
+            data: allProducts,
+        });
+    } catch (error) {
+        res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error },
+        });
+    }
+
 }
 
-const getProductById = (req, res) => {
-    const product = productService.getProductById(req.params.productId);
-    res.send(`Get product with id ${req.params.productId}`);
+const getProductById = async (req, res) => {
+    const {
+        params: { productId }
+    } = req;
+
+    if (!productId) {
+        res.status(400).send({
+            status: "FAILED",
+            data: { error: "No product ID was specified" },
+        });
+    }
+
+    try {
+        const requestedProduct = await productService.getProductById(productId);
+        res.status(201).send({
+            status: "OK",
+            data: requestedProduct,
+        });
+    } catch (error) {
+        res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error },
+        });
+    }
+
 }
 
-const createProduct = (req, res) => {
+const createProduct = async (req, res) => {
     const { body } = req;
     if (
         !body.name ||
-        !body.contain_articles ||
-        body.contain_articles.length === 0 ||
-        body.contain_articles.some(article => Number(article.amount_of) < 1)
+        !body.description ||
+        !body.price ||
+        body.price === 0 ||
+        !body.articles ||
+        body.articles.length === 0 ||
+        body.articles.some(article => !article.id || !article.amount || Number(article.amount) < 1)
     ) {
-        console.log(body)
-        return null;
+        res.status(400).send({
+            status: "FAILED",
+            data: { error: "Parameter/s 'name', 'description' 'price' or 'articles' missing or empty in request body" },
+        });
+        return;
     }
 
-    const newProduct = {
-        name: body.name,
-        contain_articles: body.contain_articles,
+    const newProductDetails = {
+        product: {
+            name: body.name,
+            description: body.description,
+            price: body.price,
+        },
+        articles: body.articles,
     }
 
-    const createdProduct = productService.createProduct(newProduct);
-    res.status(201).send({ status: "OK", data: createdProduct});
+    try {
+        const createdProduct = await productService.createProduct(newProductDetails);
+        res.status(201).send({
+            status: "OK",
+            data: createdProduct,
+        });
+    } catch (error) {
+        res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error },
+        });
+    }
+
 }
 
-const updateProduct = (req, res) => {
-    const updatedProduct = productService.updateProduct(req.params.productId, req.body);
+const updateProduct = async (req, res) => {
     res.send(`Update product with id ${req.params.productId}`);
 }
 
-const deleteProduct = (req, res) => {
-    productService.deleteProduct(req.params.productId);
+const deleteProduct = async (req, res) => {
     res.send(`Delete product with id ${req.params.productId}`);
 }
 

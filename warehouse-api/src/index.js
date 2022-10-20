@@ -14,12 +14,12 @@ app.use("/api/products", productsRouter);
 const db = require("./database/models");
 db.sequelize.sync()
     .then(() => {
-        console.log("Database sync successful");
+        console.log("📡 Database sync successful");
     })
     .catch((err) => {
-        console.log(`Failed to sync database: ${err.message}`);
+        console.log(`❌ Failed to sync database: ${err.message}`);
     });
 
 app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}!`);
+    console.log(`🚀 Warehouse API server listening on port ${PORT}`);
 });

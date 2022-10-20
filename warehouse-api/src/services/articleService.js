@@ -1,12 +1,23 @@
-const { v4: uuid } = require("uuid");
-const ArticleDAO = require("../database/Article");
+const ArticleDAO = require("../dao/ArticleDAO");
 
-const getAllArticles = () => {
-    return ArticleDAO.getAllArticles();
+const getAllArticles = async () => {
+    try {
+        const allArticles = await ArticleDAO.getAllArticles();
+        return allArticles;
+    } catch (error) {
+        throw error;
+    }
 }
-const getArticleById = (articleId) => {
-    return ArticleDAO.getArticleById(articleId);
+
+const getArticleById = async (articleId) => {
+    try {
+        const requestedArticle = await ArticleDAO.getArticleById(articleId);
+        return requestedArticle;
+    } catch (error) {
+        throw error;
+    }
 }
+
 const createArticle = async (newArticle) => {
     // TODO: check existing name (?) 
     const articleToInsert = {
@@ -18,13 +29,19 @@ const createArticle = async (newArticle) => {
         return createdArticle;
     } catch (error) {
         throw error;
-    }    
+    }
 }
 
-const updateArticle = (articleId) => {
-    return ArticleDAO.updateArticle(articleId);
+const updateArticle = async (articleId, updatedFields) => {
+    try {
+        const updatedArticle = await ArticleDAO.updateArticle(articleId, updatedFields);
+        return updatedArticle;
+    } catch (error) {
+        throw error;
+    }
 }
-const deleteArticle = (articleId) => {
+
+const deleteArticle = async (articleId) => {
     return;
 }
 
