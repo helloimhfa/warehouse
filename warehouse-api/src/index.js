@@ -1,7 +1,7 @@
 const express = require("express");
-// const cors = require("cors");
-const productsRouter = require("./routes/productRoutes");
 const articleRouter = require("./routes/articleRoutes");
+const productsRouter = require("./routes/productRoutes");
+const { swaggerDocs: WarehouseSwaggerDocs } = require("./swagger");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,5 +22,6 @@ db.sequelize.sync({
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Warehouse API server listening on port ${PORT}`);
+    console.log(`🚀 Warehouse API listening on port ${PORT}`);
+    WarehouseSwaggerDocs(app, PORT);
 });

@@ -1,8 +1,8 @@
-const ProductDAO = require("../dao/ProductDAO");
+const productRepository = require("../repositories/productRepository");
 
 const getAllProducts = async () => {
     try {
-        const allProducts = await ProductDAO.getAllProducts();
+        const allProducts = await productRepository.getAllProducts();
         return allProducts;
     } catch (error) {
         throw error;
@@ -11,7 +11,7 @@ const getAllProducts = async () => {
 
 const getProductById = async (productId) => {
     try {
-        const requestedProduct = await ProductDAO.getProductById(productId);
+        const requestedProduct = await productRepository.getProductById(productId);
         return requestedProduct;
     } catch (error) {
         throw error;
@@ -20,7 +20,7 @@ const getProductById = async (productId) => {
 
 const createProduct = async (newProductDetails) => {
     try {
-        const createdProduct = await ProductDAO.createProduct(newProductDetails);
+        const createdProduct = await productRepository.createProduct(newProductDetails);
         return createdProduct;
     } catch (error) {
         throw error;
