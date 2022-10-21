@@ -15,7 +15,7 @@ const getArticleById = async (articleId) => {
         if (requestedArticle) {
             return requestedArticle;
         } else {
-            throw { status: 400, message: `No article with id '${articleId}' was found` };
+            throw { status: 404, message: `No article with id '${articleId}' was found` };
         }
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -25,7 +25,7 @@ const getArticleById = async (articleId) => {
 const createArticle = async (newArticle) => {
     try {
         const createdArticle = await Article.create(newArticle).then(data => data).catch(error => {
-            throw { status: 501, message: `An article with the name '${newArticle.name}' already exists` };
+            throw { status: 400, message: `An article with the name '${newArticle.name}' already exists` };
         });
         return createdArticle;
     } catch (error) {

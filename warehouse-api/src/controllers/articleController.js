@@ -3,7 +3,8 @@ const articlesServices = require("../services/articleService");
 const getAllArticles = async (req, res) => {
     try {
         const allArticles = await articlesServices.getAllArticles();
-        res.status(201).send({
+        const httpResponseCode = (allArticles.length > 0) ? 200 : 204;
+        res.status(httpResponseCode).send({
             status: "OK",
             data: allArticles,
         });
@@ -29,7 +30,7 @@ const getArticleById = async (req, res) => {
 
     try {
         const requestedArticle = await articlesServices.getArticleById(articleId);
-        res.status(201).send({
+        res.status(200).send({
             status: "OK",
             data: requestedArticle,
         });
@@ -70,6 +71,11 @@ const createArticle = async (req, res) => {
     }
 }
 
+// TODO: call to update on cascade each article stock based on the product sold (req.body.productId)
+const updateProductSaleArticles = async (req, res) => {
+    return;
+}
+
 const updateArticle = async (req, res) => {
     const {
         params: { articleId }
@@ -80,14 +86,14 @@ const updateArticle = async (req, res) => {
     } = req;
 
     if (!articleId) {
-        res.status(401).send({
+        res.status(400).send({
             status: "FAILED",
             data: { error: "No article ID was specified" },
         });
     }
 
     if (!updatedFields) {
-        res.status(402).send({
+        res.status(400).send({
             status: "FAILED",
             data: { error: "No fields where specified" },
         });
@@ -95,7 +101,7 @@ const updateArticle = async (req, res) => {
 
     try {
         const updatedArticle = await articlesServices.updateArticle(articleId, updatedFields);
-        res.status(201).send({
+        res.status(200).send({
             status: "OK",
             data: updatedArticle,
         });

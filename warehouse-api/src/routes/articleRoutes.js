@@ -6,6 +6,7 @@ articleRouter
     .get("/", articleController.getAllArticles)
     .get("/:articleId", articleController.getArticleById)
     .post("/", articleController.createArticle)
+    .patch("/", articleController.updateProductSaleArticles)
     .patch("/:articleId", articleController.updateArticle)
     .delete("/:articleId", articleController.deleteArticle)
 

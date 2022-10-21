@@ -16,7 +16,7 @@ const getProductById = async (productId) => {
         if (requestedProduct) {
             return requestedProduct;
         } else {
-            throw { status: 400, message: `No product with id '${productId}' was found` };
+            throw { status: 404, message: `No product with id '${productId}' was found` };
         }
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -33,7 +33,7 @@ const createProduct = async (newProductDetails) => {
             const articlesResults = await Promise.all(articles.map(async (articleDetails) => {
                 const articleExists = await Article.findByPk(articleDetails.id);
                 if (!articleExists) {
-                    throw { status: 401, message: `No article with id '${articleDetails.id}' was found` };
+                    throw { status: 404, message: `No article with id '${articleDetails.id}' was found` };
                 }                
 
                 const productArticle = {
