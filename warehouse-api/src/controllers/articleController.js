@@ -24,7 +24,7 @@ const getArticleById = async (req, res) => {
     if (!articleId) {
         res.status(400).send({
             status: "FAILED",
-            data: { error: "No article ID was specified" },
+            data: { error: "No article id was specified" },
         });
     }
 

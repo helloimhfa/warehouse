@@ -1,5 +1,28 @@
-const { Article } = require("../database/models");
+const { Article } = require("../models");
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Article:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: 61dbae02-c147-4e28-863c-db7bd402b2d6
+ *         name:
+ *           type: string
+ *           example: Screw
+ *         stock:
+ *           type: integer
+ *           example: 12
+ *         createdAt:
+ *           type: string
+ *           example: 4/20/2022, 2:21:56 PM
+ *         updatedAt:
+ *           type: string
+ *           example: 4/20/2022, 2:21:56 PM
+ */
 const getAllArticles = async () => {
     try {
         const allArticles = await Article.findAll();

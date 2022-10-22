@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true })); // parse requests of content-ty
 app.use("/api/articles", articleRouter);
 app.use("/api/products", productsRouter);
 
-const db = require("./database/models");
+const db = require("./models");
 db.sequelize.sync({
     force: false,
     alter: true,
