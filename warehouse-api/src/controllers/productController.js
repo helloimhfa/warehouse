@@ -2,11 +2,10 @@ const productService = require("../services/productService");
 
 const getAllProducts = async (req, res) => {
     try {
-        const allProducts = await productService.getAllProducts();
-        const httpResponseCode = (allProducts.length > 0) ? 200 : 204;
-        res.status(httpResponseCode).send({
+        const response = await productService.getAllProducts();
+        res.status(response.code).send({
             status: "OK",
-            data: allProducts,
+            data: response.data,
         });
     } catch (error) {
         res.status(error?.status || 500).send({
@@ -62,17 +61,8 @@ const createProduct = async (req, res) => {
         return;
     }
 
-    const newProductDetails = {
-        product: {
-            name: body.name,
-            description: body.description,
-            price: body.price,
-        },
-        articles: body.articles,
-    }
-
     try {
-        const createdProduct = await productService.createProduct(newProductDetails);
+        const createdProduct = await productService.createProduct(body.name, body.description, body.price, body.articles);
         res.status(201).send({
             status: "OK",
             data: createdProduct,
@@ -83,7 +73,6 @@ const createProduct = async (req, res) => {
             data: { error: error?.message || error },
         });
     }
-
 }
 
 const updateProduct = async (req, res) => {

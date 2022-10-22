@@ -78,11 +78,7 @@ const getAllProducts = async () => {
 const getProductById = async (productId) => {
     try {
         const requestedProduct = await Product.findByPk(productId, { include: Article });
-        if (requestedProduct) {
-            return requestedProduct;
-        } else {
-            throw { status: 404, message: `No product with id '${productId}' was found` };
-        }
+        return requestedProduct
     } catch (error) {
         throw { status: 500, message: error?.message || error };
     }
