@@ -35,11 +35,16 @@ const getAllArticles = async () => {
 const getArticleById = async (articleId) => {
     try {
         const requestedArticle = await Article.findByPk(articleId);
-        if (requestedArticle) {
-            return requestedArticle;
-        } else {
-            throw { status: 404, message: `No article with id '${articleId}' was found` };
-        }
+        return requestedArticle;
+    } catch (error) {
+        throw { status: 500, message: error?.message || error };
+    }
+}
+
+const getArticleByName = async (articleName) => {
+    try {
+        const requestedArticle = await Article.findAll({ where: { name: articleName}});
+        return requestedArticle;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
     }
@@ -47,9 +52,7 @@ const getArticleById = async (articleId) => {
 
 const createArticle = async (newArticle) => {
     try {
-        const createdArticle = await Article.create(newArticle).then(data => data).catch(error => {
-            throw { status: 400, message: `An article with the name '${newArticle.name}' already exists` };
-        });
+        const createdArticle = await Article.create(newArticle);
         return createdArticle;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -60,12 +63,6 @@ const updateArticle = async (articleId, fieldsToUpdate) => {
     try {
         const articleUpdateResult = await Article.update(fieldsToUpdate, {
             where: { id: articleId }
-        }).then(result => {
-            if (result[0] === 1) {
-                return `Article ${articleId} updated successfully`;
-            } else {
-                throw { status: 501, message: `Article ${articleId} update failed` };
-            }
         });
         return articleUpdateResult;
     } catch (error) {
@@ -80,6 +77,7 @@ const deleteArticle = async (articleId) => {
 module.exports = {
     getAllArticles,
     getArticleById,
+    getArticleByName,
     createArticle,
     updateArticle,
     deleteArticle,

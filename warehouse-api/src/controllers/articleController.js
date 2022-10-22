@@ -2,11 +2,11 @@ const articlesServices = require("../services/articleService");
 
 const getAllArticles = async (req, res) => {
     try {
-        const allArticles = await articlesServices.getAllArticles();
-        const httpResponseCode = (allArticles.length > 0) ? 200 : 204;
-        res.status(httpResponseCode).send({
+        const allArticlesResponse = await articlesServices.getAllArticles();
+        
+        res.status(allArticlesResponse.code).send({
             status: "OK",
-            data: allArticles,
+            data: allArticlesResponse.data,
         });
     } catch (error) {
         res.status(error?.status || 500).send({
@@ -52,13 +52,8 @@ const createArticle = async (req, res) => {
         });
     }
 
-    const newArticle = {
-        name: body.name,
-        stock: body.stock,
-    }
-
     try {
-        const createdArticle = await articlesServices.createArticle(newArticle);
+        const createdArticle = await articlesServices.createArticle(body.name, body.stock);
         res.status(201).send({
             status: "OK",
             data: createdArticle,
