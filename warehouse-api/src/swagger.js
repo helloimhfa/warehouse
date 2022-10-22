@@ -11,7 +11,7 @@ const options = {
         "src/routes/articleRoutes.js",
         "src/routes/productRoutes.js",
         "src/repositories/articleRepository.js",
-        "src/repositories/articleRepository.js",
+        "src/repositories/productRepository.js",
     ],
 };
 

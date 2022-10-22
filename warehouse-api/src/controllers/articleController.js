@@ -82,7 +82,7 @@ const updateArticle = async (req, res) => {
     } = req;
 
     const {
-        body: { updatedFields }
+        body: { fields }
     } = req;
 
     if (!articleId) {
@@ -92,7 +92,7 @@ const updateArticle = async (req, res) => {
         });
     }
 
-    if (!updatedFields) {
+    if (!fields) {
         res.status(400).send({
             status: "FAILED",
             data: { error: "No fields where specified" },
@@ -100,7 +100,7 @@ const updateArticle = async (req, res) => {
     }
 
     try {
-        const updatedArticle = await articlesServices.updateArticle(articleId, updatedFields);
+        const updatedArticle = await articlesServices.updateArticle(articleId, fields);
         res.status(200).send({
             status: "OK",
             data: updatedArticle,
@@ -122,5 +122,6 @@ module.exports = {
     getArticleById,
     createArticle,
     updateArticle,
+    // updateProductSaleArticles,
     deleteArticle,
 }

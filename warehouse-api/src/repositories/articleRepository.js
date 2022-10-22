@@ -56,15 +56,15 @@ const createArticle = async (newArticle) => {
     }
 }
 
-const updateArticle = async (articleId, updateData) => {
+const updateArticle = async (articleId, fieldsToUpdate) => {
     try {
-        const articleUpdateResult = await Article.update(updateData, {
+        const articleUpdateResult = await Article.update(fieldsToUpdate, {
             where: { id: articleId }
         }).then(result => {
-            if (result === 1) {
+            if (result[0] === 1) {
                 return `Article ${articleId} updated successfully`;
             } else {
-                throw { status: 501, message: `Article ${articleId} updated failed` };
+                throw { status: 501, message: `Article ${articleId} update failed` };
             }
         });
         return articleUpdateResult;

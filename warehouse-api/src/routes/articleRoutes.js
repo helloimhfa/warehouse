@@ -136,7 +136,7 @@ const articleController = require("../controllers/articleController");
  *   get:
  *     tags:
  *       - Articles
- *     summary: Retrieve an article given an ID
+ *     summary: Retrieve an article given its ID
  *     parameters:
  *       - in: path
  *         name: id
@@ -144,7 +144,7 @@ const articleController = require("../controllers/articleController");
  *         schema:
  *           title: Article ID
  *           type: string
- *         description: The id of an article
+ *         description: The id of the article to retrieve
  *     responses:
  *       200:
  *         description: Request processed successfully
@@ -208,6 +208,95 @@ const articleController = require("../controllers/articleController");
  *                     error:
  *                       type: string
  *                       example: "Some error message"
+ *   patch:
+ *     tags:
+ *       - Articles
+ *     summary: Modify an existing article
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           title: Article ID
+ *           type: string
+ *         description: The id of the article to modify
+ *     requestBody:
+ *       description: Object with fields to update
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               fields:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                   stock:
+ *                     type: integer
+ *     responses:
+ *       200:
+ *         description: Request processed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 data:
+ *                   type: string
+ *                   example: Article XXXXX updated successfully
+ *       400:
+ *         description: Invalid params
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Error message with details about wrong or missing params"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Some error message"
+ *       501:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: FAILED
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     error:
+ *                       type: string
+ *                       example: "Article XXXX update failed"
  */
 articleRouter
     .get("/", articleController.getAllArticles)

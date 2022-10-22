@@ -32,9 +32,9 @@ const createArticle = async (newArticle) => {
     }
 }
 
-const updateArticle = async (articleId, updatedFields) => {
+const updateArticle = async (articleId, fieldsToUpdate) => {
     try {
-        const updatedArticle = await articleRepository.updateArticle(articleId, updatedFields);
+        const updatedArticle = await articleRepository.updateArticle(articleId, fieldsToUpdate);
         return updatedArticle;
     } catch (error) {
         throw error;

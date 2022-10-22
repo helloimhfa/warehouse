@@ -3,7 +3,7 @@ const productService = require("../services/productService");
 const getAllProducts = async (req, res) => {
     try {
         const allProducts = await productService.getAllProducts();
-        const httpResponseCode = (allArticles.length > 0) ? 200 : 204;
+        const httpResponseCode = (allProducts.length > 0) ? 200 : 204;
         res.status(httpResponseCode).send({
             status: "OK",
             data: allProducts,

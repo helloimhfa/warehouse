@@ -1,6 +1,71 @@
 const db = require("../models");
 const { Product, Article, ProductArticle } = require("../models");
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           example: ec47e708-e668-4774-8ad0-5520097e0707
+ *         name:
+ *           type: string
+ *           example: Gaming chair
+ *         description:
+ *           type: string
+ *           example: Such a nice and comfy chair to wreck opponents online
+ *         price:
+ *           type: number
+ *           format: float
+ *           example: 389.90
+ *         createdAt:
+ *           type: string
+ *           example: 4/20/2022, 2:21:56 PM
+ *         updatedAt:
+ *           type: string
+ *           example: 4/20/2022, 2:21:56 PM
+ *         articles:
+ *           type: array
+ *           items:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: string
+ *                   example: f2bbbfe0-d33c-437f-969e-d24ef1ef49f2
+ *                 name:
+ *                   type: string
+ *                   example: Chair component A
+ *                 stock:
+ *                   type: integer
+ *                   example: 90
+ *                 createdAt:
+ *                   type: string
+ *                   example: 4/20/2022, 2:21:56 PM
+ *                 updatedAt:
+ *                   type: string
+ *                   example: 4/20/2022, 2:21:56 PM
+ *                 product_article:
+ *                   type: object
+ *                   properties:
+ *                     amount:
+ *                       type: integer
+ *                       example: 5
+ *                     createdAt:
+ *                       type: string
+ *                       example: 4/20/2022, 2:21:56 PM
+ *                     updatedAt:
+ *                       type: string
+ *                       example: 4/20/2022, 2:21:56 PM
+ *                     articleId:
+ *                       type: string
+ *                       example: f2bbbfe0-d33c-437f-969e-d24ef1ef49f2
+ *                     productId:
+ *                       type: string
+ *                       example: ec47e708-e668-4774-8ad0-5520097e0707
+ */
 const getAllProducts = async () => {
     try {
         const allProducts = await Product.findAll({ include: Article });
@@ -12,7 +77,7 @@ const getAllProducts = async () => {
 
 const getProductById = async (productId) => {
     try {
-        const requestedProduct = await Product.findByPk(productId);
+        const requestedProduct = await Product.findByPk(productId, { include: Article });
         if (requestedProduct) {
             return requestedProduct;
         } else {
@@ -28,13 +93,13 @@ const createProduct = async (newProductDetails) => {
     const { articles } = newProductDetails;
 
     try {
-        const transactionResult = await db.sequelize.transaction(async (t) => {            
+        const transactionResult = await db.sequelize.transaction(async (t) => {
             const createdProduct = await Product.create(product, { transaction: t });
             const articlesResults = await Promise.all(articles.map(async (articleDetails) => {
                 const articleExists = await Article.findByPk(articleDetails.id);
                 if (!articleExists) {
                     throw { status: 404, message: `No article with id '${articleDetails.id}' was found` };
-                }                
+                }
 
                 const productArticle = {
                     productId: createdProduct.id,
