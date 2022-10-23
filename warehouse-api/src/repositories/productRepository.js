@@ -93,17 +93,17 @@ const createProduct = async (newProductDetails) => {
             const createdProduct = await Product.create(product, { transaction: t });
             const articlesResults = await Promise.all(articles.map(async (articleDetails) => {
                 const articleExists = await Article.findByPk(articleDetails.id);
-                if (!articleExists) {
+                if (articleExists) {
+                    const productArticle = {
+                        productId: createdProduct.id,
+                        articleId: articleDetails.id,
+                        amount: articleDetails.amount,
+                    };
+    
+                    return await ProductArticle.create(productArticle, { transaction: t })
+                } else {
                     throw { status: 404, message: `No article with id '${articleDetails.id}' was found` };
-                }
-
-                const productArticle = {
-                    productId: createdProduct.id,
-                    articleId: articleDetails.id,
-                    amount: articleDetails.amount,
-                };
-
-                return await ProductArticle.create(productArticle, { transaction: t })
+                }                
             }));
 
             return { product: createdProduct, articles: articlesResults };

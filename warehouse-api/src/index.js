@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const articleRouter = require("./routes/articleRoutes");
 const productsRouter = require("./routes/productRoutes");
 const { swaggerDocs: WarehouseSwaggerDocs } = require("./swagger");
@@ -6,6 +7,7 @@ const { swaggerDocs: WarehouseSwaggerDocs } = require("./swagger");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json()); // parse requests of content-type - application/json
 app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use("/api/articles", articleRouter);
