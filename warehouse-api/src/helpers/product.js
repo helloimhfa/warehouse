@@ -1,24 +1,23 @@
-
 const parseWithStocks = (productsData) => {
     return productsData.map(product => {
-        const maximumStocksByArticle = product.articles.map(articleInfo => {
-            return getStockByArticle(articleInfo.stock, articleInfo.product_article.amount);
+        const availabilityByArticle = product.articles.map(articleInfo => {
+            return getAvailabilityByArticle(articleInfo.stock, articleInfo.product_article.amount);
         });
 
-        const currentProductStock = getMaximumAvailableProducts(maximumStocksByArticle);
-        // const product
+        const currentProductStock = getMaximumAvailableProducts(availabilityByArticle);
+        const productStatus = getProductStatus(currentProductStock);
 
         return {
             id: product.id,
             name: product.name,
             price: product.price,
-            stock: productsAvailable,
-            status: getProductStockStatus(stock),
+            stock: currentProductStock,
+            status: productStatus,
         }
     });
 }
 
-const getStockByArticle = (available, required) => {
+const getAvailabilityByArticle = (available, required) => {
     if (
         !Number.isInteger(required) ||
         !Number.isInteger(available) ||
@@ -38,10 +37,29 @@ const getMaximumAvailableProducts = (availabilities) => {
     return Math.max(...availabilities);
 }
 
+const getProductStatus = (stockNumber) => {
+    const productStatus = {
+        key: "U",
+        text: "Unknown",
+    }
+    if (stockNumber > 4) {
+        productStatus.key = "A";
+        productStatus.text = "Available";
+    } else if (stockNumber > 0) {
+        productStatus.key = "L";
+        productStatus.text = "Last units";
+    } else if (stockNumber === 0) {
+        productStatus.key = "S";
+        productStatus.text = "Sold out";
+    }
+    
+    return productStatus;
+}
+
 const ProductHelpers = {
     parseWithStocks: parseWithStocks,
-    getStockByArticle: getStockByArticle,
+    getAvailabilityByArticle: getAvailabilityByArticle,
     getMaximumAvailableProducts: getMaximumAvailableProducts,
 }
 
-export default ProductHelpers;
+module.exports = ProductHelpers;

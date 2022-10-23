@@ -1,12 +1,16 @@
 const productRepository = require("../repositories/productRepository");
+const CommonHelpers = require("../helpers/common");
+const ProductHelpers = require('../helpers/product');
 
 const getAllProducts = async () => {
     try {
         const allProducts = await productRepository.getAllProducts();
         const responseCode = (allProducts.length > 0) ? 200 : 204;
+        const productsObj = CommonHelpers.instanceToPlainObject(allProducts);
+        const productsData = ProductHelpers.parseWithStocks(productsObj);
         return {
             code: responseCode,
-            data: allProducts,
+            data: productsData,
         };
     } catch (error) {
         throw error;

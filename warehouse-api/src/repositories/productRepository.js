@@ -68,7 +68,9 @@ const { Product, Article, ProductArticle } = require("../models");
  */
 const getAllProducts = async () => {
     try {
-        const allProducts = await Product.findAll({ include: Article });
+        const allProducts = await Product.findAll({
+            include: Article,
+        });
         return allProducts;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -99,11 +101,11 @@ const createProduct = async (newProductDetails) => {
                         articleId: articleDetails.id,
                         amount: articleDetails.amount,
                     };
-    
+
                     return await ProductArticle.create(productArticle, { transaction: t })
                 } else {
                     throw { status: 404, message: `No article with id '${articleDetails.id}' was found` };
-                }                
+                }
             }));
 
             return { product: createdProduct, articles: articlesResults };
