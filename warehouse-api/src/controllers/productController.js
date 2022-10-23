@@ -83,10 +83,15 @@ const deleteProduct = async (req, res) => {
     res.send(`Delete product with id ${req.params.productId}`);
 }
 
+const sellProduct = async (req, res) => {
+    res.send(`Selling a product with id ${req.params.productId}`);
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
+    sellProduct,
 }

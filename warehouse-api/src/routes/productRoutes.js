@@ -241,6 +241,7 @@ productRouter
     .get("/", productController.getAllProducts)
     .get("/:productId", productController.getProductById)
     .post("/", productController.createProduct)
+    .post("/sale/:productId", productController.sellProduct) // TODO: to avoid creating a whole new domain and services for sales
     .patch("/:productId", productController.updateProduct)
     .delete("/:productId", productController.deleteProduct)
 
