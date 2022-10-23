@@ -53,9 +53,7 @@ const WarehouseProductManager = ({
                     detail: `${response.data.length} products found!`,
                     life: 5000,
                 });
-                console.log(response)
-                const productsWithStockAndStatus = ProductHelpers.parseWithStocks(response.data);
-                setProducts(productsWithStockAndStatus);
+                setProducts(response.data);
             }).catch(err => {
                 console.error(err);
                 warehouseManagerToast.current.show({
