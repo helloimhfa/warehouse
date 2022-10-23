@@ -1,0 +1,11 @@
+.s-table {
+    border: 1px solid #e9ecef;
+}
+
+.product-column {
+    text-align: center !important;
+}
+
+.product-column .p-column-header-content{
+    justify-content: center !important;
+}

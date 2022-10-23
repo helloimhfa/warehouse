@@ -1,0 +1,17 @@
+.warehouse-header {
+    position: fixed;
+    top: 0;
+    height: 10vh;
+    max-height: 100px;
+    z-index: 999;
+    background-color: #ffffff;
+}
+
+.header-title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header-logo > img {
+    max-height: 50px;
+}

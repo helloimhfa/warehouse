@@ -1,0 +1,11 @@
+.articles-table {
+    border: 1px solid #e9ecef;
+}
+
+.article-column {
+    text-align: center !important;
+}
+
+.article-column .p-column-header-content{
+    justify-content: center !important;
+}
