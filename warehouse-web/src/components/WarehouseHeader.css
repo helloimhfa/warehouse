@@ -10,8 +10,15 @@
 .header-title {
     font-size: 30px;
     font-weight: bold;
+    color: #919191;
 }
 
-.header-logo > img {
+.colored-title {
+    color: #5e5c5c !important;
+}
+
+.header-logo>img {
     max-height: 50px;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
 }

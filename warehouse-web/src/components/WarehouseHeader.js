@@ -8,10 +8,10 @@ const WarehouseHeader = () => {
             <div className="header-title col-12 md:col-6 flex justify-content-center align-items-center gap-3">
                 <div className="header-label hidden md:inline-flex ml-3">
                     <p className="font-light">
-                        <span className="font-bold">W</span>arehouse
+                        Ware<span className="colored-title font-semibold">house</span>
                     </p>
                 </div>
-                <Image className="header-logo" src={warehouseLogo} alt="Image Text" />
+                <Image className="header-logo" src={warehouseLogo} alt="" />
             </div>
         </div>
     );
