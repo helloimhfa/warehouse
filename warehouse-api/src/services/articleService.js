@@ -1,4 +1,5 @@
 const articleRepository = require("../repositories/articleRepository");
+const lockedArticleRepository = require("../repositories/lockedArticleRepository");
 
 const getAllArticles = async () => {
     try {
@@ -62,12 +63,31 @@ const createArticle = async (articleName, articleStock) => {
 
 const updateArticle = async (articleId, fieldsToUpdate) => {
     try {
-        const updatedArticle = await articleRepository.updateArticle(articleId, fieldsToUpdate);
-        if (updatedArticle[0] === 1) {
-            return `Article ${articleId} updated successfully`;
+        const lockedArticle = await lockedArticleRepository.getLockedArticleByArticleId(articleId);
+        if (lockedArticle && lockedArticle.length > 0) {
+            throw { status: 403, message: `Article ${articleId} is currently locked` };
         } else {
-            throw { status: 501, message: `Article ${articleId} update failed` };
-        }
+            const newLock = {
+                articleId: articleId,
+                createdAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+                updatedAt: new Date().toLocaleString("en-US", { timeZone: "UTC" }),
+            }
+            
+            const createdArticleLock = await lockedArticleRepository.createLockedArticle(newLock);
+            if (createdArticleLock) {
+                const updatedArticle = await articleRepository.updateArticle(articleId, fieldsToUpdate);
+                if (updatedArticle[0] === 1) {
+                    const lockReleaseResult = await lockedArticleRepository.deleteLockedArticle(createdArticleLock.id);
+                    if (lockReleaseResult) {
+                        return `Article ${articleId} updated successfully`;
+                    } else {
+                        throw { status: 500, message: `Article ${articleId} release failed` }; // FIXME: this should be stored somewhere to deal with it (!!!!!)
+                    }
+                } else {
+                    throw { status: 500, message: `Article ${articleId} update failed` };
+                }
+            }            
+        }        
     } catch (error) {
         throw error;
     }

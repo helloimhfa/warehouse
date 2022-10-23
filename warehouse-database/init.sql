@@ -66,6 +66,28 @@ TABLESPACE pg_default;
 ALTER TABLE IF EXISTS public.product_articles
     OWNER to warehouse;
 
+-- Table: public.locked_articles
+
+-- DROP TABLE IF EXISTS public.locked_articles;
+
+CREATE TABLE IF NOT EXISTS public.locked_articles
+(
+    id uuid NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "articleId" uuid NOT NULL,
+    CONSTRAINT locked_articles_pkey PRIMARY KEY (id),
+    CONSTRAINT "locked_articles_articleId_fkey" FOREIGN KEY ("articleId")
+        REFERENCES public.articles (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.locked_articles
+    OWNER to warehouse;
+
 -- Populate public.articles
 INSERT INTO
     public.articles(id, name, stock, "createdAt", "updatedAt")

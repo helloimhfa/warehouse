@@ -3,7 +3,7 @@ module.exports = (sequelize, Sequelize, DataTypes) => {
         amount: {
             type: Sequelize.INTEGER,
             allowNull: false,
-        }
+        },
     });
 
     

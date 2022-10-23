@@ -22,6 +22,7 @@ const db = {
 db.Article = require("./article")(sequelize, Sequelize, DataTypes);
 db.Product = require("./product")(sequelize, Sequelize, DataTypes);
 db.ProductArticle = require("./product_article")(sequelize, Sequelize, DataTypes);
+db.LockedArticle = require("./locked_article")(sequelize, Sequelize, DataTypes);
 
 db.Article.belongsToMany(db.Product, {
   through: db.ProductArticle,
@@ -30,5 +31,11 @@ db.Article.belongsToMany(db.Product, {
 db.Product.belongsToMany(db.Article, {
   through: db.ProductArticle,
 });
+
+db.Article.hasOne(db.LockedArticle, {
+  foreignKey: 'articleId',
+});
+
+db.LockedArticle.belongsTo(db.Article);
 
 module.exports = db;
