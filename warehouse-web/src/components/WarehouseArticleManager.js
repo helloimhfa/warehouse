@@ -54,7 +54,7 @@ const WarehouseArticleManager = ({
         console.log(`Updating ${articleId} with stock of ${newStock}`);
     }
 
-    const refreshArticles = () => {
+    const searchArticles = () => {
         fetch('http://localhost:3000/api/articles')
             .then(rawResponse => rawResponse.json())
             .then(response => {
@@ -83,6 +83,13 @@ const WarehouseArticleManager = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showArticleForm]);
 
+    // // useEffect(() => {
+    // //     if (articles.length === 0) {
+    // //         searchArticles();
+    // //     }
+    // //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // // }, []);
+
     return (
         <div className="col-12 xl:col-4 flex shadow-2 p-4 warehouse-article-manager">
             <ArticlesTable
@@ -90,7 +97,7 @@ const WarehouseArticleManager = ({
                 saleInProgress={saleInProgress}
                 openNewArticleForm={openNewArticleForm}
                 updateArticleStock={updateArticleStock}
-                refreshArticles={refreshArticles}
+                searchArticles={searchArticles}
                 articlesRefreshing={articlesRefreshing}
             />
             <ArticleForm

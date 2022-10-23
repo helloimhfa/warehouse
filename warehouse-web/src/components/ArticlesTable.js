@@ -12,7 +12,7 @@ const ArticlesTable = ({
     openNewArticleForm,
     updateArticleStock,
     articlesRefreshing,
-    refreshArticles,
+    searchArticles,
 }) => {
 
     const dt = useRef(null);
@@ -24,7 +24,7 @@ const ArticlesTable = ({
                     label="Refresh articles"
                     icon="pi pi-refresh"
                     className="gap-2 mr-2"
-                    onClick={refreshArticles}
+                    onClick={searchArticles}
                     disabled={articlesRefreshing || saleInProgress}
                 />
             </span>
