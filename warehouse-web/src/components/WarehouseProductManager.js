@@ -1,8 +1,9 @@
 import { useState } from "react";
 import ProductsTable from "./ProductsTable";
 // import ProductForm from "./ProductForm";
-
+import ProductHelpers from "../helpers/ProductHelpers";
 import "./WarehouseProductManager.css";
+
 
 const WarehouseProductManager = ({
     products,
@@ -34,6 +35,8 @@ const WarehouseProductManager = ({
         setProductSubmitted(false);
         setProductFormItem(PRODUCT_DRAFT)
     }    
+
+    
 
     const refreshProducts = () => {
         fetch('http://localhost:3000/api/products')
