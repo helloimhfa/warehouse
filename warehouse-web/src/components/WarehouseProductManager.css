@@ -1,4 +1,5 @@
 .warehouse-product-manager {
-    background-color: rgb(210, 147, 147);
-    min-height: 65vh;
+    border: 0.5px solid #bfbdbf;
+    border-radius: 10px;
+    min-height: 70vh;
 }

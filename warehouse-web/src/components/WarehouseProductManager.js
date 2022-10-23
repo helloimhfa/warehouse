@@ -27,7 +27,14 @@ const WarehouseProductManager = ({
     const [productSubmitted, setProductSubmitted] = useState(false);
 
     const openNewProductForm = () => {
-        return;
+        warehouseManagerToast.current.show({
+            severity: "warn",
+            summary: "",
+            detail: "Work in progress",
+            life: 5000,
+        });
+        // setProductFormItem(ARTICLE_DRAFT);
+        // setShowProductForm(true);
     }
 
     const resetProductForm = () => {
@@ -35,8 +42,6 @@ const WarehouseProductManager = ({
         setProductSubmitted(false);
         setProductFormItem(PRODUCT_DRAFT)
     }    
-
-    
 
     const refreshProducts = () => {
         fetch('http://localhost:3000/api/products')
@@ -49,7 +54,8 @@ const WarehouseProductManager = ({
                     life: 5000,
                 });
                 console.log(response)
-                setProducts(response.data);
+                const productsWithStockAndStatus = ProductHelpers.parseWithStocks(response.data);
+                setProducts(productsWithStockAndStatus);
             }).catch(err => {
                 console.error(err);
                 warehouseManagerToast.current.show({

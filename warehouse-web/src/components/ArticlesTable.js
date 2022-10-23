@@ -59,7 +59,7 @@ const ArticlesTable = ({
     }
 
     return (
-        <div className="col-12 articles-table">
+        <div className="col-12">
             <DataTable
                 ref={dt}
                 value={articles}
@@ -77,11 +77,11 @@ const ArticlesTable = ({
                 <Column
                     field="name"
                     header="Name"
-                    className="article-column col-6"></Column>
+                    className="article-column col-8"></Column>
                 <Column
                     field="stock"
                     header="Stock"
-                    className="article-column col-6"
+                    className="article-column col-4"
                     body={articleStockBodyTemplate}></Column>
             </DataTable>
         </div>

@@ -39,6 +39,12 @@ const ProductsTable = ({
         </div>
     );
 
+    const productActionsHeader = (
+        <>
+            <i className="actions-header-icon pi pi-cog"></i>
+        </>
+    );
+
     const productStatusBodyTemplate = (productData) => {
         return (<></>);
     }
@@ -56,7 +62,7 @@ const ProductsTable = ({
     }
 
     return (
-        <div className="col-12 products-table">
+        <div className="col-12">
             <DataTable
                 ref={dt}
                 value={products}
@@ -85,7 +91,7 @@ const ProductsTable = ({
                     header="Stock"
                     className="product-column col-5"></Column>
                 <Column
-                    header={<><i className="pi pi-cog"></i></>}
+                    header={productActionsHeader}
                     className="product-column col-2"
                     body={productSaleBodyTemplate}></Column>
             </DataTable>

@@ -1,4 +1,4 @@
-.s-table {
+.products-table {
     border: 1px solid #e9ecef;
 }
 
@@ -8,4 +8,8 @@
 
 .product-column .p-column-header-content{
     justify-content: center !important;
+}
+
+.actions-header-icon {
+    color: #8f8f8f;
 }
