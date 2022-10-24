@@ -26,7 +26,7 @@ const ArticlesTable = ({
     }
 
     const articlesTableHeader = (
-        <div className="table-header articles-table-header grid justify-content-between p-4">
+        <div className="table-header articles-table-header grid justify-content-center p-4">
             <span className="p-input-icon-left">
                 <Button
                     label={searchButtonLabel}
@@ -36,7 +36,7 @@ const ArticlesTable = ({
                     disabled={articlesRefreshing || saleInProgress}
                 />
             </span>
-            <span className="p-input-icon-left">
+            {/* <span className="p-input-icon-left">
                 <Button
                     label="New article"
                     icon="pi pi-plus"
@@ -44,7 +44,7 @@ const ArticlesTable = ({
                     onClick={openNewArticleForm}
                     disabled={articlesRefreshing || saleInProgress}
                 />
-            </span>
+            </span> */}
         </div>
     );
 

@@ -17,7 +17,6 @@ const WarehouseManager = ({ warehouseManagerToast }) => {
         fetch('http://localhost:3000/api/articles')
             .then(rawResponse => rawResponse.json())
             .then(response => {
-                console.log(">>>", response.data)
                 setArticles(response.data);
                 if (displayToast) {
                     warehouseManagerToast.current.show({
@@ -64,17 +63,14 @@ const WarehouseManager = ({ warehouseManagerToast }) => {
 
     const revertStockChange = (articleId, oldStock) => {
         const _articles = articles.map(article => {
-            console.log(article)
             const _stock = article.id === articleId ? oldStock : article.stock;
             const _article = {
                 ...article,
                 stock: _stock,
             }
 
-            console.log(_article);
             return _article;
         });
-        console.log("***", _articles)
         setArticles(_articles);
     }
 
@@ -129,8 +125,6 @@ const WarehouseManager = ({ warehouseManagerToast }) => {
                 } else {
                     sellProduct(product)
                 }
-
-                console.log(response.data)
             }).catch(err => {
                 console.error(err);
                 warehouseManagerToast.current.show({
@@ -143,25 +137,33 @@ const WarehouseManager = ({ warehouseManagerToast }) => {
     }
 
     const sellProduct = (product) => {
-        fetch(`http://localhost:3000/api/products/sale/${product.id}`)
+        fetch(`http://localhost:3000/api/products/sale/`, {
+            method: 'POST',
+            body: JSON.stringify({
+                productId: product.id,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        })
             .then(rawResponse => rawResponse.json())
             .then(response => {
-                console.log(response.data)
-                if (response.data) {
+                if (response.data.error) {
+                    warehouseManagerToast.current.show({
+                        severity: "error",
+                        summary: `Error selling ${product.name}`,
+                        detail: response.data.error,
+                        life: 5000,
+                    });
+                } else {
                     warehouseManagerToast.current.show({
                         severity: "success",
-                        summary: "",
-                        detail: `${product.name} sold successfully`,
+                        summary: "Sale completed!",
+                        detail: `The product ${product.name} was sold successfully`,
                         life: 5000,
                     });
                     searchArticles(false);
-                } else {
-                    warehouseManagerToast.current.show({
-                        severity: "error",
-                        summary: "",
-                        detail: `Error selling ${product.name}`,
-                        life: 5000,
-                    });
+                    searchProducts(false);
                 }
             }).catch(err => {
                 console.error(err);

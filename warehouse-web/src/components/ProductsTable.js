@@ -40,7 +40,7 @@ const ProductsTable = ({
     }
 
     const productsTableHeader = (
-        <div className="table-header products-table-header grid justify-content-between p-4">
+        <div className="table-header products-table-header grid justify-content-center p-4">
             <span className="p-input-icon-left">
                 <Button
                     label={searchButtonLabel}
@@ -50,7 +50,7 @@ const ProductsTable = ({
                     disabled={productsRefreshing || saleInProgress}
                 />
             </span>
-            <span className="p-input-icon-left">
+            {/* <span className="p-input-icon-left">
                 <Button
                     label="New product"
                     icon="pi pi-plus"
@@ -58,7 +58,7 @@ const ProductsTable = ({
                     onClick={openNewProductForm}
                     disabled={productsRefreshing || saleInProgress}
                 />
-            </span>
+            </span> */}
         </div>
     );
 
