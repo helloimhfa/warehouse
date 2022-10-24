@@ -99,4 +99,4 @@ The application relies on three containers running each service:
   - Aaaaand that's a wrap... Feel free to reach me for any inquiry or question. 
 
 
-# </br></br><p align="center">👋🏽 Thank you for your time!</p>
+# </br><p align="center">👋🏽 Thank you for your time!</p>
