@@ -78,7 +78,7 @@ const getAllProducts = async () => {
 const getProductById = async (productId) => {
     try {
         const requestedProduct = await Product.findByPk(productId, { include: Article });
-        return requestedProduct
+        return requestedProduct;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
     }

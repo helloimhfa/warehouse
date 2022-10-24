@@ -84,7 +84,30 @@ const deleteProduct = async (req, res) => {
 }
 
 const sellProduct = async (req, res) => {
-    res.send(`Selling a product with id ${req.params.productId}`);
+    const {
+        body: { productId }
+    } = req;
+
+    if (!productId) {
+        res.status(400).send({
+            status: "FAILED",
+            data: { error: "Product id is missing" },
+        });
+        return;
+    }
+
+    try {
+        const productSold = await productService.sellProduct(productId);
+        res.status(201).send({
+            status: "OK",
+            data: productSold,
+        });
+    } catch (error) {
+        res.status(error?.status || 500).send({
+            status: "FAILED",
+            data: { error: error?.message || error },
+        });
+    }
 }
 
 module.exports = {

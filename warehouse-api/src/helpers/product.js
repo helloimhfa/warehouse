@@ -39,7 +39,7 @@ const getMaximumAvailableProducts = (availabilities) => {
         return 0;
     }
 
-    return Math.max(...availabilities);
+    return Math.min(...availabilities);
 }
 
 const getProductStatus = (stockNumber) => {
@@ -61,10 +61,20 @@ const getProductStatus = (stockNumber) => {
     return productStatus;
 }
 
+const getArticlesToSell = (product) => {
+    return product.articles.map(articleInfo => {
+        return {
+            id: articleInfo.id,
+            items: articleInfo.product_article.amount
+        }
+    });
+}
+
 const ProductHelpers = {
     addStockDetails: addStockDetails,
     getAvailabilityByArticle: getAvailabilityByArticle,
     getMaximumAvailableProducts: getMaximumAvailableProducts,
+    getArticlesToSell: getArticlesToSell,
 }
 
 module.exports = ProductHelpers;

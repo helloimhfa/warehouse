@@ -86,8 +86,8 @@ describe('getMaximumAvailableProducts', () => {
         expect(result).toBeNull();
     });
 
-    test('Returns maximum value present in the array', () => {
-        const expected = 7;
+    test('Returns minimum value present in the array', () => {
+        const expected = 1;
         const result = ProductHelpers.getMaximumAvailableProducts([1, 7, 3, 2]);
         expect(result).toBe(expected);
     });

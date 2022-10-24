@@ -38,18 +38,23 @@ const getLockedArticleByLockId = async (lockedArticleId) => {
     }
 }
 
-const getLockedArticleByArticleId = async (articleId) => {
+const getLockedArticleByArticleId = async (articleId, currentTransaction = null) => {
     try {
-        const requestedLockedArticle = await LockedArticle.findAll({ where: { articleId: articleId } });
+        const requestedLockedArticle = await LockedArticle.findAll({
+            where: {
+                articleId: articleId
+            },
+            transaction: currentTransaction,
+        });
         return requestedLockedArticle;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
     }
 }
 
-const createLockedArticle = async (newLockedArticle) => {
+const createLockedArticle = async (newLockedArticle, currentTransaction = null) => {
     try {
-        const createdLockedArticle = await LockedArticle.create(newLockedArticle);
+        const createdLockedArticle = await LockedArticle.create(newLockedArticle, { transaction: currentTransaction });
         return createdLockedArticle;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -66,10 +71,11 @@ const deleteLockedArticle = async (lockId) => {
     }
 }
 
-const deleteLockedArticleByArticleId = async (lockedArticleId) => {
+const deleteLockedArticleByArticleId = async (lockedArticleId, currentTransaction = null) => {
     try {
         const deletedLockedArticle = await LockedArticle.destroy({
-            where: { id: lockedArticleId }
+            where: { articleId: lockedArticleId },
+            transaction: currentTransaction,
         });
         return deletedLockedArticle;
     } catch (error) {

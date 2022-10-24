@@ -1,4 +1,5 @@
 const productRepository = require("../repositories/productRepository");
+const articleRepository = require("../repositories/articleRepository");
 const CommonHelpers = require("../helpers/common");
 const ProductHelpers = require('../helpers/product');
 
@@ -61,10 +62,30 @@ const deleteProduct = async () => {
     return;
 }
 
+const sellProduct = async (productId) => {
+    try {
+        const requestedProduct = await productRepository.getProductById(productId);
+        if (requestedProduct) {
+            const productObj = CommonHelpers.instanceToPlainObject(requestedProduct);
+            const articlesToSell = ProductHelpers.getArticlesToSell(productObj);
+            const articlesRemoved = await articleRepository.removeSoldArticles(articlesToSell);
+            console.log(":>:<>:<?<:",  articlesRemoved)
+            return articlesRemoved;
+        } else {
+            throw { status: 404, message: `No product with id '${productId}' was found` };
+        }
+        
+        return articlesToSell;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
     deleteProduct,
+    sellProduct,
 }
