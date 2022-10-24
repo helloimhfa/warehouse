@@ -16,15 +16,23 @@ const ArticlesTable = ({
 }) => {
 
     const dt = useRef(null);
+    const [searchButtonIcon, setSearchButtonIcon] = useState("pi pi-search");
+    const [searchButtonLabel, setSearchButtonLabel] = useState("Search articles");
+
+    const articleSearchTriggered = () => {
+        searchArticles();
+        setSearchButtonIcon("pi pi-refresh");
+        setSearchButtonLabel("Refresh articles");        
+    }
 
     const articlesTableHeader = (
         <div className="table-header articles-table-header grid justify-content-between p-4">
             <span className="p-input-icon-left">
                 <Button
-                    label="Refresh articles"
-                    icon="pi pi-refresh"
+                    label={searchButtonLabel}
+                    icon={searchButtonIcon}
                     className="gap-2 mr-2"
-                    onClick={searchArticles}
+                    onClick={articleSearchTriggered}
                     disabled={articlesRefreshing || saleInProgress}
                 />
             </span>
@@ -45,7 +53,7 @@ const ArticlesTable = ({
             <InputNumber
                 className=""
                 value={articleData.stock}
-                onValueChange={(e) => updateArticleStock(articleData.id, e.target.value)}
+                onValueChange={(e) => updateArticleStock(articleData.id, e.target.value, articleData.stock)}
                 showButtons
                 buttonLayout="horizontal"
                 min={0}
@@ -65,6 +73,7 @@ const ArticlesTable = ({
                 value={articles}
                 className="p-datatable-responsive articles-table"
                 dataKey="id"
+                sortField="name"
                 header={articlesTableHeader}
                 paginator
                 rows={10}

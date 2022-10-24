@@ -13,3 +13,9 @@
 .actions-header-icon {
     color: #8f8f8f;
 }
+
+.product-status-btn {
+    outline: none !important;
+    cursor: default !important;
+    width: 100%;
+}

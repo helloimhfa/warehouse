@@ -7,8 +7,10 @@ import "./WarehouseArticleManager.css";
 const WarehouseArticleManager = ({
     articles,
     setArticles,
-    saleProduct,
+    searchArticles,
+    saleProductId,
     saleInProgress,
+    updateArticleStock,
     articlesRefreshing,
     warehouseManagerToast,
 }) => {
@@ -48,32 +50,6 @@ const WarehouseArticleManager = ({
         // setArticleSubmitted(true);
         // loadingIcon en header ???
         // completar el item con la id devuelta por la API
-    }
-
-    const updateArticleStock = (articleId, newStock) => {
-        console.log(`Updating ${articleId} with stock of ${newStock}`);
-    }
-
-    const searchArticles = () => {
-        fetch('http://localhost:3000/api/articles')
-            .then(rawResponse => rawResponse.json())
-            .then(response => {
-                warehouseManagerToast.current.show({
-                    severity: "success",
-                    summary: "",
-                    detail: `${response.data.length} articles found!`,
-                    life: 5000,
-                });
-                setArticles(response.data);
-            }).catch(err => {
-                console.error(err);
-                warehouseManagerToast.current.show({
-                    severity: "error",
-                    summary: "ERROR",
-                    detail: "Opsie poopsie! Something terrible happened...",
-                    life: 5000,
-                });
-            });
     }
 
     useEffect(() => {

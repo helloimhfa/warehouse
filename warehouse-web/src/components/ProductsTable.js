@@ -9,21 +9,44 @@ const ProductsTable = ({
     products,
     saleInProgress,
     openNewProductForm,
-    sellProduct,
-    refreshProducts,
+    checkProductArticlesBeforeSale,
+    searchProducts,
     productsRefreshing,
 }) => {
 
+    const PRODUCT_STATUS_CLASSNAME_DICTIONARY = {
+        I: "p-button-success",
+        L: "p-button-warning",
+        S: "p-button-danger",
+        U: "p-button-secondary",
+    }
+
+    // To highlight rows if needed
+    const PRODUCT_ROW_CLASSNAME_DICTIONARY = {
+        I: "in-stock-product",
+        L: "last-units-product",
+        S: "sold-out-product",
+        U: "unknown-status-product",
+    }
+
     const dt = useRef(null);
+    const [searchButtonIcon, setSearchButtonIcon] = useState("pi pi-search");
+    const [searchButtonLabel, setSearchButtonLabel] = useState("Search products");
+
+    const productsSearchTriggered = () => {
+        searchProducts();
+        setSearchButtonIcon("pi pi-refresh");
+        setSearchButtonLabel("Refresh products");        
+    }
 
     const productsTableHeader = (
         <div className="table-header products-table-header grid justify-content-between p-4">
             <span className="p-input-icon-left">
                 <Button
-                    label="Refresh products"
-                    icon="pi pi-refresh"
+                    label={searchButtonLabel}
+                    icon={searchButtonIcon}
                     className="gap-2 mr-2"
-                    onClick={refreshProducts}
+                    onClick={productsSearchTriggered}
                     disabled={productsRefreshing || saleInProgress}
                 />
             </span>
@@ -45,8 +68,18 @@ const ProductsTable = ({
         </>
     );
 
-    const productStatusBodyTemplate = (productData) => {
-        return (<></>);
+    const productStatusBodyTemplate = (productRow) => {
+        const productRowClassname = PRODUCT_STATUS_CLASSNAME_DICTIONARY[productRow.status.key];
+
+        return (
+            <>
+                <Button label={productRow.status.text} className={"product-status-btn p--outlined " + productRowClassname}/>
+            </>
+        );
+    }
+
+    const productPriceBodyTemplate = (productRow) => {
+        return <>{productRow.price} €</>;
     }
 
     const productSaleBodyTemplate = (productRow) => {
@@ -54,8 +87,8 @@ const ProductsTable = ({
             <>
                 <Button
                     icon="pi pi-shopping-cart"
-                    className="sell-product-btn"
-                    onClick={() => sellProduct(productRow)}
+                    className="sell-product-btn p-button-secondary"
+                    onClick={() => checkProductArticlesBeforeSale(productRow)}
                 />
             </>
         );
@@ -68,6 +101,7 @@ const ProductsTable = ({
                 value={products}
                 className="p-datatable-responsive products-table"
                 dataKey="id"
+                sortField="name"
                 header={productsTableHeader}
                 paginator
                 rows={10}
@@ -78,21 +112,26 @@ const ProductsTable = ({
                 breakpoint="640px"
             >
                 <Column
+                    field="name"
+                    header="Name"
+                    className="product-column col-3"></Column>
+                <Column
                     field="status"
                     header="Status"
                     className="product-column col-2"
                     body={productStatusBodyTemplate}></Column>
                 <Column
-                    field="name"
-                    header="Name"
-                    className="product-column col-3"></Column>
-                <Column
                     field="stock"
                     header="Stock"
-                    className="product-column col-5"></Column>
+                    className="product-column col-3"></Column>
+                <Column
+                    field="price"
+                    header="Price"
+                    className="product-column col-3"
+                    body={productPriceBodyTemplate}></Column>
                 <Column
                     header={productActionsHeader}
-                    className="product-column col-2"
+                    className="product-column col-1"
                     body={productSaleBodyTemplate}></Column>
             </DataTable>
         </div>

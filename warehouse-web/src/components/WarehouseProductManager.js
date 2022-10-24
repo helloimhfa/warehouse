@@ -1,16 +1,16 @@
 import { useState } from "react";
 import ProductsTable from "./ProductsTable";
 // import ProductForm from "./ProductForm";
-import ProductHelpers from "../helpers/ProductHelpers";
 import "./WarehouseProductManager.css";
 
 
 const WarehouseProductManager = ({
     products,
     setProducts,
+    searchProducts,
     saleInProgress,
-    saleProduct,    
-    sellProduct,
+    saleProductId,    
+    checkProductArticlesBeforeSale,
     productsRefreshing,
     warehouseManagerToast,
 }) => {
@@ -18,7 +18,8 @@ const WarehouseProductManager = ({
     const PRODUCT_DRAFT = {
         id: "",
         name: "",
-        stock: 0,
+        price: 0,
+        articles: [],
     }
 
     
@@ -43,36 +44,14 @@ const WarehouseProductManager = ({
         setProductFormItem(PRODUCT_DRAFT)
     }    
 
-    const refreshProducts = () => {
-        fetch('http://localhost:3000/api/products')
-            .then(rawResponse => rawResponse.json())
-            .then(response => {
-                warehouseManagerToast.current.show({
-                    severity: "success",
-                    summary: "",
-                    detail: `${response.data.length} products found!`,
-                    life: 5000,
-                });
-                setProducts(response.data);
-            }).catch(err => {
-                console.error(err);
-                warehouseManagerToast.current.show({
-                    severity: "error",
-                    summary: "ERROR",
-                    detail: "Opsie poopsie! Something terrible happened...",
-                    life: 5000,
-                });
-            });
-    }
-
     return (
         <div className="col-12 xl:col-7 flex shadow-2 warehouse-product-manager">            
             <ProductsTable
                 products={products}
                 saleInProgress={saleInProgress}
                 openNewProductForm={openNewProductForm}
-                sellProduct={sellProduct}
-                refreshProducts={refreshProducts}
+                checkProductArticlesBeforeSale={checkProductArticlesBeforeSale}
+                searchProducts={searchProducts}
                 productsRefreshing={productsRefreshing}
             />
             {/* <ProductForm /> */}
