@@ -87,9 +87,6 @@ The application relies on three containers running each service:
     ```
   - ##### Running the container
     ```bash
-    # Note two things:
-    #  - the use of a volume to apply local changes to the container
-    #  - the IPv4 assignment for the React client requests to the API
     docker run -d -p 3100:3100 --network warehouse --ip 172.21.0.12 --name warehouseweb warehouseweb
     ```
 ## Next steps & missing points
