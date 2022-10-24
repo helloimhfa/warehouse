@@ -1,9 +1,9 @@
-const articlesServices = require("../services/articleService");
+const articlesService = require("../services/articleService");
 
 const getAllArticles = async (req, res) => {
     try {
-        const allArticlesResponse = await articlesServices.getAllArticles();
-        
+        const allArticlesResponse = await articlesService.getAllArticles();
+
         res.status(allArticlesResponse.code).send({
             status: "OK",
             data: allArticlesResponse.data,
@@ -29,7 +29,7 @@ const getArticleById = async (req, res) => {
     }
 
     try {
-        const requestedArticle = await articlesServices.getArticleById(articleId);
+        const requestedArticle = await articlesService.getArticleById(articleId);
         res.status(200).send({
             status: "OK",
             data: requestedArticle,
@@ -53,7 +53,7 @@ const createArticle = async (req, res) => {
     }
 
     try {
-        const createdArticle = await articlesServices.createArticle(body.name, body.stock);
+        const createdArticle = await articlesService.createArticle(body.name, body.stock);
         res.status(201).send({
             status: "OK",
             data: createdArticle,
@@ -80,31 +80,33 @@ const updateArticle = async (req, res) => {
         body: { fields }
     } = req;
 
+    // FIXME:
     if (!articleId) {
         res.status(400).send({
             status: "FAILED",
             data: { error: "No article ID was specified" },
         });
-    }
-
-    if (!fields) {
-        res.status(400).send({
-            status: "FAILED",
-            data: { error: "No fields where specified" },
-        });
-    }
-
-    try {
-        const updatedArticle = await articlesServices.updateArticle(articleId, fields);
-        res.status(200).send({
-            status: "OK",
-            data: updatedArticle,
-        });
-    } catch (error) {
-        res.status(error?.status || 500).send({
-            status: "FAILED",
-            data: { error: error?.message || error },
-        });
+    } else {
+        // TODO: check the res send not returning (it locks article and provokes server to stop T_T)
+        if (!fields || !fields.stock) {
+            res.status(400).send({
+                status: "FAILED",
+                data: { error: "No fields where specified" },
+            });
+        } else {
+            try {
+                const updatedArticle = await articlesService.updateArticle(articleId, fields);
+                res.status(200).send({
+                    status: "OK",
+                    data: updatedArticle,
+                });
+            } catch (error) {
+                res.status(error?.status || 500).send({
+                    status: "FAILED",
+                    data: { error: error?.message || error },
+                });
+            }
+        }
     }
 }
 

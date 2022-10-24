@@ -10,12 +10,9 @@ const { LockedArticle } = require("../models");
  *         id:
  *           type: string
  *           example: 61dbae02-c147-4e28-863c-db7bd402b2d6
- *         name:
+ *         articleId:
  *           type: string
- *           example: Screw
- *         stock:
- *           type: integer
- *           example: 12
+ *           example: 8d6376d6-14ae-4750-b809-f2fe00927fab
  *         createdAt:
  *           type: string
  *           example: 4/20/2022, 2:21:56 PM
@@ -32,7 +29,7 @@ const getAllLockedArticles = async () => {
     }
 }
 
-const getLockedArticleById = async (lockedArticleId) => {
+const getLockedArticleByLockId = async (lockedArticleId) => {
     try {
         const requestedLockedArticle = await LockedArticle.findByPk(lockedArticleId);
         return requestedLockedArticle;
@@ -82,7 +79,7 @@ const deleteLockedArticleByArticleId = async (lockedArticleId) => {
 
 module.exports = {
     getAllLockedArticles,
-    getLockedArticleById,
+    getLockedArticleByLockId,
     getLockedArticleByArticleId,
     createLockedArticle,
     deleteLockedArticle,

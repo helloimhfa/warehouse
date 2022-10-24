@@ -68,9 +68,7 @@ const { Product, Article, ProductArticle } = require("../models");
  */
 const getAllProducts = async () => {
     try {
-        const allProducts = await Product.findAll({
-            include: Article,
-        });
+        const allProducts = await Product.findAll({ include: Article });
         return allProducts;
     } catch (error) {
         throw { status: 500, message: error?.message || error };

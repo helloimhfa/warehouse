@@ -10,8 +10,10 @@ const options = {
     apis: [
         "src/routes/articleRoutes.js",
         "src/routes/productRoutes.js",
+        "src/routes/lockedArticleRoutes.js",
         "src/repositories/articleRepository.js",
         "src/repositories/productRepository.js",
+        "src/repositories/lockedArticleRepository.js",
     ],
 };
 

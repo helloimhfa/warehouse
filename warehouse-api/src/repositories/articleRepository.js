@@ -25,7 +25,11 @@ const { Article } = require("../models");
  */
 const getAllArticles = async () => {
     try {
-        const allArticles = await Article.findAll();
+        const allArticles = await Article.findAll({
+            order: [
+                ['name', 'ASC'],
+            ],
+        });
         return allArticles;
     } catch (error) {
         throw { status: 500, message: error?.message || error };
@@ -43,7 +47,7 @@ const getArticleById = async (articleId) => {
 
 const getArticleByName = async (articleName) => {
     try {
-        const requestedArticle = await Article.findAll({ where: { name: articleName}});
+        const requestedArticle = await Article.findAll({ where: { name: articleName } });
         return requestedArticle;
     } catch (error) {
         throw { status: 500, message: error?.message || error };

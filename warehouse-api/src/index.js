@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const articleRouter = require("./routes/articleRoutes");
 const productsRouter = require("./routes/productRoutes");
+const lockedArticlesRouter = require("./routes/lockedArticleRoutes");
 const { swaggerDocs: WarehouseSwaggerDocs } = require("./swagger");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json()); // parse requests of content-type - application/json
 app.use(express.urlencoded({ extended: true })); // parse requests of content-type - application/x-www-form-urlencoded
 app.use("/api/articles", articleRouter);
 app.use("/api/products", productsRouter);
+app.use("/api/locks", lockedArticlesRouter);
 
 const db = require("./models");
 db.sequelize.sync({

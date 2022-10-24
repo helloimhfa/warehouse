@@ -1,4 +1,4 @@
-const parseWithStocks = (productsData) => {
+const addStockDetails = (productsData) => {
     return productsData.map(product => {
         const availabilityByArticle = product.articles.map(articleInfo => {
             return getAvailabilityByArticle(articleInfo.stock, articleInfo.product_article.amount);
@@ -43,8 +43,8 @@ const getProductStatus = (stockNumber) => {
         text: "Unknown",
     }
     if (stockNumber > 4) {
-        productStatus.key = "A";
-        productStatus.text = "Available";
+        productStatus.key = "I";
+        productStatus.text = "In stock";
     } else if (stockNumber > 0) {
         productStatus.key = "L";
         productStatus.text = "Last units";
@@ -57,7 +57,7 @@ const getProductStatus = (stockNumber) => {
 }
 
 const ProductHelpers = {
-    parseWithStocks: parseWithStocks,
+    addStockDetails: addStockDetails,
     getAvailabilityByArticle: getAvailabilityByArticle,
     getMaximumAvailableProducts: getMaximumAvailableProducts,
 }

@@ -32,10 +32,4 @@ db.Product.belongsToMany(db.Article, {
   through: db.ProductArticle,
 });
 
-db.Article.hasOne(db.LockedArticle, {
-  foreignKey: 'articleId',
-});
-
-db.LockedArticle.belongsTo(db.Article);
-
 module.exports = db;

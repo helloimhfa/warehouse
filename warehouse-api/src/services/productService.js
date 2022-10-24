@@ -7,7 +7,7 @@ const getAllProducts = async () => {
         const allProducts = await productRepository.getAllProducts();
         const responseCode = (allProducts.length > 0) ? 200 : 204;
         const productsObj = CommonHelpers.instanceToPlainObject(allProducts);
-        const productsData = ProductHelpers.parseWithStocks(productsObj);
+        const productsData = ProductHelpers.addStockDetails(productsObj);
         return {
             code: responseCode,
             data: productsData,
@@ -21,7 +21,9 @@ const getProductById = async (productId) => {
     try {
         const requestedProduct = await productRepository.getProductById(productId);
         if (requestedProduct) {
-            return requestedProduct;
+            const productObj = CommonHelpers.instanceToPlainObject(requestedProduct);
+            const productData = ProductHelpers.addStockDetails([productObj]);
+            return productData[0];
         } else {
             throw { status: 404, message: `No product with id '${productId}' was found` };
         }
