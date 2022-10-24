@@ -69,7 +69,6 @@ const sellProduct = async (productId) => {
             const productObj = CommonHelpers.instanceToPlainObject(requestedProduct);
             const articlesToSell = ProductHelpers.getArticlesToSell(productObj);
             const articlesRemoved = await articleRepository.removeSoldArticles(articlesToSell);
-            console.log(":>:<>:<?<:",  articlesRemoved)
             return articlesRemoved;
         } else {
             throw { status: 404, message: `No product with id '${productId}' was found` };

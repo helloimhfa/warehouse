@@ -119,7 +119,6 @@ const removeSoldArticles = async (articlesToRemove) => {
                     return { stockUpdate: updateArticle, articleRelease: releasedArticle };
                 }));
 
-                console.log(updateArticlesResults);
                 return updateArticlesResults;
             });
 
