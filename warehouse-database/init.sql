@@ -73,14 +73,10 @@ ALTER TABLE IF EXISTS public.product_articles
 CREATE TABLE IF NOT EXISTS public.locked_articles
 (
     id uuid NOT NULL,
+    "articleId" character varying(255) COLLATE pg_catalog."default" NOT NULL,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL,
-    "articleId" uuid NOT NULL,
     CONSTRAINT locked_articles_pkey PRIMARY KEY (id),
-    CONSTRAINT "locked_articles_articleId_fkey" FOREIGN KEY ("articleId")
-        REFERENCES public.articles (id) MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
 )
 
 TABLESPACE pg_default;
