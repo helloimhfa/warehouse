@@ -88,7 +88,7 @@ const updateArticle = async (req, res) => {
         });
     } else {
         // TODO: check the res send not returning (it locks article and provokes server to stop T_T)
-        if (!fields || !fields.stock) {
+        if (!fields || (fields.stock !== 0 && !fields.stock)) {
             res.status(400).send({
                 status: "FAILED",
                 data: { error: "No fields where specified" },

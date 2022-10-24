@@ -61,7 +61,16 @@ const createLockedArticle = async (articleId) => {
 
 const deleteLockedArticle = async (lockId) => {
     try {
-        const deletedLock = lockedArticleRepository.deleteLockedArticle(lockId);
+        const deletedLock = await lockedArticleRepository.deleteLockedArticle(lockId);
+        const responseCode = (deletedLock) ? 200 : 404; // TODO: rework response codes and logic
+        return {
+            code: responseCode,
+            data: deletedLock,
+        };
+        if (deletedLock) {
+            
+        }
+        
         return deletedLock;
     } catch (error) {
         throw error;
@@ -72,7 +81,7 @@ const deleteLockedArticle = async (lockId) => {
 // Method to release all in case of stuck situation
 const deleteLockedArticleByArticleId = async (articleId) => {
     try {
-        const deletedLocks = lockedArticleRepository.deleteLockedArticleByArticleId(articleId);
+        const deletedLocks = await lockedArticleRepository.deleteLockedArticleByArticleId(articleId);
         return deletedLocks;
     } catch (error) {
         throw error;

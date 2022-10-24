@@ -34,6 +34,11 @@ const getMaximumAvailableProducts = (availabilities) => {
     if (!Array.isArray(availabilities) || availabilities.length === 0) {
         return null;
     }
+
+    if (availabilities.some(availability => availability === 0)) {
+        return 0;
+    }
+
     return Math.max(...availabilities);
 }
 

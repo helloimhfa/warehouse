@@ -92,9 +92,9 @@ describe('getMaximumAvailableProducts', () => {
         expect(result).toBe(expected);
     });
 
-    test('Returns zero if no value is greater than zero', () => {
+    test('Returns zero if one value is zero', () => {
         const expected = 0;
-        const result = ProductHelpers.getMaximumAvailableProducts([0, 0, 0]);
+        const result = ProductHelpers.getMaximumAvailableProducts([3, 0, 10]);
         expect(result).toBe(expected);
     });
 });
