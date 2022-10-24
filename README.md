@@ -9,9 +9,8 @@ and modify products and inventories.
 
 💡 The setup described here will involve <a href="https://www.docker.com//">Docker</a>. In order to follow this guide you'll need the service up and running on your system. You can find how to install it <a href="https://docs.docker.com/engine/install/"> here</a>.
 
-⚠️ Make sure you are in the repos root directory before you start the setup.
 
-#### Features
+#### Overview
 
 The application relies on three containers running each service:
   - A [PostgreSQL](https://www.postgresql.org/) database.
@@ -19,10 +18,12 @@ The application relies on three containers running each service:
   - [React](https://reactjs.org/) web application 
 
 ## Setting up the project
+⚠️ Make sure you are in the repos root directory before you start the setup. 
+
 
 - #### General
 
-    First of all, we will create a docker network[^1] to allow the containers to communicate with each other:
+    First of all, we will create a docker network to allow the containers to communicate with each other:
 
     ```bash
     # Creation of Docker network named `warehouse`
@@ -32,7 +33,7 @@ The application relies on three containers running each service:
     docker network list
     ```
 
-- #### Database
+- #### 🗄 Database
 
   - ##### Building the image
 
@@ -61,7 +62,7 @@ The application relies on three containers running each service:
     warehouse=# exit
     ```
 
-- #### API
+- #### ⚙️ API
 
   - ##### Building the image
     ```bash
@@ -78,13 +79,27 @@ The application relies on three containers running each service:
   - ##### Testing the API
     You'll be able to access the [Swagger](https://swagger.io/) API docs [here](http://localhost:3000/warehouse/api/docs/)
 
-- #### 🚧 Web application [^2]
-    
+- #### 💻 Web application
+  
+  - ##### Building the image
+    ```bash
+    docker build --no-cache . -f web.Dockerfile -t warehouseweb
     ```
-    Setup and details about the React application
+  - ##### Running the container
+    ```bash
+    # Note two things:
+    #  - the use of a volume to apply local changes to the container
+    #  - the IPv4 assignment for the React client requests to the API
+    docker run -d -p 3100:3100 --network warehouse --ip 172.21.0.12 --name warehouseweb warehouseweb
     ```
+## Next steps & missing points
+
+  - Unit testing is used in some helpers and functions in the API, but the web application comes with a lack of testing. I would have liked to at least implement a few integration tests regarding fetching and presenting the data, and the product sale operation.
+  - This happened due to the investment of a considerable amount of time modelling the database, the constraints and the implementation of lock system. I have to admit I experimented some problems (👀) understanding how to lock rows with Sequelize and struggled with the official documentation about that matter.
+  - Nonetheless, figuring out a workaround to address the consistency of the data and the atomicity of its operations proved to be a fun challenge.
+  - I also wanted to merge all the setup and Docker stuff within a docker-compose.yaml file but I ran out of time. 
+  - To finish, it would have been nice to finish the implementation of adding and editing new articles and products.
+  - Aaaaand that's a wrap... Feel free to reach me for any inquiry or question. 
 
 
-
-[^1]: Docker network definition and details from its [official website](https://docs.docker.com/engine/reference/commandline/network/)
-[^2]: Coming [soon™](https://wowwiki-archive.fandom.com/wiki/Soon#:~:text=the%20Earth's%20orbit!%22-,Blizzard's%20Official%20Definition%20of%20Soon,number%20of%20risks%20and%20uncertainties.)
+# </br></br><p style="text-align: center;">👋🏽 Thank you for your time!</p>
